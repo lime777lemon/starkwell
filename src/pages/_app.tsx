@@ -2,7 +2,7 @@ import React from 'react'
 import type { AppProps } from 'next/app'
 import { builder } from '@builder.io/react'
 import '@/styles/globals.css'
-import { LanguageProvider } from '../contexts/LanguageContext'
+import { LanguageProvider } from '@/contexts/LanguageContext'
 
 // Builder.ioの初期化
 if (process.env.NEXT_PUBLIC_BUILDER_API_KEY) {
