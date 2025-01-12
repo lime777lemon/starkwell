@@ -14,6 +14,7 @@ import {
   NavigationItemProps
 } from "../../data/starkwell";
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function StarkwellPage() {
   return (
@@ -44,12 +45,18 @@ export default function StarkwellPage() {
             {navigationItems.map((item: NavigationItemProps, index: number) => (
               <NavigationItem key={index} {...item} />
             ))}
-            <div className="self-stretch px-4 py-2 my-auto text-center rounded-[32px]">
+            <Link 
+              href="/signup"
+              className="self-stretch px-4 py-2 my-auto text-center rounded-[32px] hover:bg-sky-700 transition-colors"
+            >
               登録
-            </div>
-            <div className="self-stretch px-4 py-2 my-auto text-sm text-sky-600 bg-white rounded-[32px]">
+            </Link>
+            <Link 
+              href="/login"
+              className="self-stretch px-4 py-2 my-auto text-sm text-sky-600 bg-white rounded-[32px] hover:bg-gray-100 transition-colors"
+            >
               ログイン
-            </div>
+            </Link>
           </div>
         </nav>
       </header>

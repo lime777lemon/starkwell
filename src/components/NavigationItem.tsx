@@ -1,13 +1,16 @@
 import * as React from "react";
-import { NavigationItemProps } from "../types";
+import Link from 'next/link';
 
-export const NavigationItem: React.FC<NavigationItemProps> = ({
-  text,
-  href,
-}) => (
-  <div className="flex justify-center items-center self-stretch my-auto text-center">
-    <a href={href} className="self-stretch my-auto">
-      {text}
-    </a>
-  </div>
+interface NavigationItemProps {
+  text: string;
+  href: string;
+}
+
+export const NavigationItem: React.FC<NavigationItemProps> = ({ text, href }) => (
+  <Link 
+    href={href}
+    className="self-stretch px-4 py-2 my-auto text-center hover:bg-sky-700 rounded-[32px] transition-colors"
+  >
+    {text}
+  </Link>
 );

@@ -47,7 +47,14 @@ export const services: ServiceCardProps[] = [
 export const navigationItems: NavigationItemProps[] = [
   {
     text: "ケアを検索",
-    href: "#search",
+    href: "/search",
   },
-  // ... 他のnavigationItems
+  {
+    text: "リソース",
+    href: "/resources",
+  },
+  {
+    text: "プラットフォーム",
+    href: "/platform",
+  },
 ]; 
