@@ -1,29 +1,47 @@
 import * as React from "react";
 import { GetStaticProps } from 'next';
-import { builder, BuilderComponent } from '@builder.io/react';
-import { Header } from '../components/Header';
+import { builder } from '@builder.io/react';
+import Header from '../components/Header';
 import { ServiceCard } from '../components/ServiceCard';
-import { services, navigationItems } from '../data';
+import { services } from '../data';
 import Link from 'next/link'
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../translations';
+import Image from 'next/image';
+
+interface HomePageProps {
+  builderContent: unknown;
+}
 
 // Builder.ioの初期化
 if (process.env.NEXT_PUBLIC_BUILDER_API_KEY) {
   builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY);
 }
 
-interface HomePageProps {
-  builderContent: any;
-}
-
-export default function HomePage({ builderContent }: HomePageProps) {
+export default function HomePage() {
   const { language } = useLanguage();
   const t = translations[language];
 
+  // servicesセクションのレンダリングを分離
+  const renderServices = () => (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {services.map((service) => {
+        const serviceTranslation = t.services[service.key];
+        return (
+          <ServiceCard 
+            key={service.key}
+            title={serviceTranslation.title}
+            description={serviceTranslation.description}
+            icon={service.icon}
+          />
+        );
+      })}
+    </div>
+  );
+
   return (
     <div className="flex flex-col shadow-sm min-w-[390px]">
-      <Header />
+      <Header navigationItems={[]} />
 
       <main role="main">
         {/* Hero Section */}
@@ -63,16 +81,7 @@ export default function HomePage({ builderContent }: HomePageProps) {
         <section className="py-20 bg-white" aria-label="Services">
           <div className="container mx-auto px-8">
             <h2 className="text-3xl font-bold text-center mb-12">{t.services.title}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {services.map((service, index) => (
-                <ServiceCard 
-                  key={index} 
-                  {...service}
-                  title={t.services[service.key].title}
-                  description={t.services[service.key].description}
-                />
-              ))}
-            </div>
+            {renderServices()}
           </div>
         </section>
 
@@ -82,9 +91,11 @@ export default function HomePage({ builderContent }: HomePageProps) {
             <div className="flex flex-col space-y-16">
               {/* Search Care */}
               <div className="flex flex-row items-start max-w-4xl mx-auto w-full">
-                <img 
+                <Image 
                   src="/images/doctor.jpg"
                   alt="Doctor using smartphone" 
+                  width={400}
+                  height={256}
                   className="w-1/2 h-64 object-cover rounded-lg mr-6"
                 />
                 <div className="w-1/2">
@@ -141,18 +152,22 @@ export default function HomePage({ builderContent }: HomePageProps) {
                     </li>
                   </ul>
                 </div>
-                <img 
+                <Image 
                   src="/images/doctoers.jpg"
                   alt="Medical team in surgical attire" 
+                  width={400}
+                  height={256}
                   className="w-1/2 h-64 object-cover rounded-lg ml-6"
                 />
               </div>
 
               {/* Calculate Costs */}
               <div className="flex flex-row items-start max-w-4xl mx-auto w-full">
-                <img 
+                <Image 
                   src="/images/money.jpg"
                   alt="Money and cost calculation" 
+                  width={400}
+                  height={256}
                   className="w-1/2 h-64 object-cover rounded-lg mr-6"
                 />
                 <div className="w-1/2">
@@ -225,7 +240,7 @@ export default function HomePage({ builderContent }: HomePageProps) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
   try {
     const builderContent = await builder
       .get('page', {

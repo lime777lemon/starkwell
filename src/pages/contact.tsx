@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Header } from '../components/Header'
+import Header from '../components/Header'
 import { useLanguage } from '../contexts/LanguageContext'
 import { translations } from '../translations'
 import { supabase } from '../lib/supabase'
@@ -29,13 +29,10 @@ export default function ContactPage() {
         .from('contacts')
         .insert([data]);
 
-      if (error) {
-        console.error('Supabase error:', error);
-        throw error;
-      }
+      if (error) throw error;
 
       setSubmitStatus('success');
-      e.currentTarget.reset();
+      e.currentTarget.reset(); // フォームをリセット
     } catch (error) {
       console.error('Error submitting form:', error);
       setSubmitStatus('error');
@@ -46,7 +43,7 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <Header navigationItems={[]} />
       
       <main className="flex-grow bg-gray-50 py-20">
         <div className="container mx-auto px-4">

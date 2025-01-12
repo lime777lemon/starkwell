@@ -1,35 +1,25 @@
-import React from 'react'
+import * as React from "react";
+import Image from 'next/image';
 
 interface ComparisonCardProps {
-  title: string
-  price: string
-  features: string[]
-  isPopular?: boolean
+  title: string;
+  icon: string;
 }
 
-export function ComparisonCard({ title, price, features, isPopular }: ComparisonCardProps) {
-  return (
-    <div className={`
-      bg-white p-6 rounded-lg shadow-md relative
-      ${isPopular ? 'border-2 border-blue-500' : ''}
-    `}>
-      {isPopular && (
-        <div className="absolute top-0 right-0 bg-blue-500 text-white px-4 py-1 rounded-bl-lg rounded-tr-lg">
-          人気
-        </div>
-      )}
-      <h3 className="text-xl font-bold mb-4">{title}</h3>
-      <p className="text-3xl font-bold mb-6">{price}</p>
-      <ul className="space-y-2">
-        {features.map((feature, index) => (
-          <li key={index} className="flex items-center">
-            <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            {feature}
-          </li>
-        ))}
-      </ul>
+export const ComparisonCard: React.FC<ComparisonCardProps> = ({ title, icon }) => (
+  <div className="flex flex-col items-start flex-1 w-full max-w-[300px]">
+    <div className="flex flex-col justify-center items-center px-5 bg-white rounded-md border border-solid shadow-md border-zinc-200 h-[108px] w-[108px] max-md:px-5">
+      <Image
+        loading="lazy"
+        src={icon}
+        alt={title}
+        width={48}
+        height={48}
+        className="object-contain w-full aspect-square"
+      />
     </div>
-  )
-} 
+    <div className="gap-2.5 self-stretch p-2.5 text-xl font-bold leading-7 text-sky-600 whitespace-nowrap">
+      {title}
+    </div>
+  </div>
+);

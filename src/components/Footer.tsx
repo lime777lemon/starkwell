@@ -1,28 +1,25 @@
-import React from 'react'
-import Link from 'next/link'
-
-interface MenuItem {
-  label: string
-  href: string
-}
-
-interface SocialLink {
-  platform: string
-  url: string
-}
+import * as React from "react";
+import { NavigationItemProps } from "../types";
 
 interface FooterProps {
-  companyName?: string
-  companyAddress?: string
-  socialLinks?: SocialLink[]
-  menuItems?: MenuItem[]
+  navigationItems: NavigationItemProps[];
 }
 
-export function Footer({
-  companyName = '会社名',
-  companyAddress = '〒000-0000 東京都○○区××町1-1-1',
-  socialLinks = [],
-  menuItems = [],
-}: FooterProps) {
-  // ... コンポーネントの実装
-} 
+const Footer: React.FC<FooterProps> = ({ navigationItems }) => {
+  return (
+    <footer className="flex flex-col items-center justify-center w-full p-4 bg-sky-600 text-white">
+      <nav className="flex flex-wrap gap-4 justify-center">
+        {navigationItems.map((item, index) => (
+          <a key={index} href={item.href} className="text-white hover:underline">
+            {item.text}
+          </a>
+        ))}
+      </nav>
+      <div className="mt-4 text-sm">
+        &copy; {new Date().getFullYear()} Starkwell. All rights reserved.
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

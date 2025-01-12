@@ -16,7 +16,7 @@ export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey)
 // 接続テスト用の関数
 export async function testSupabaseConnection() {
   try {
-    const { data, error } = await supabase.from('contacts').select('count').single()
+    const { error } = await supabase.from('contacts').select('count').single()
     if (error) throw error
     console.log('Supabase connection successful')
     return true

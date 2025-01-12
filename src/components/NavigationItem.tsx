@@ -1,18 +1,13 @@
-import React from 'react'
-import Link from 'next/link'
+import * as React from "react";
+import { NavigationItemProps } from "../types";
 
-interface NavigationItemProps {
-  label: string
-  href: string
-}
-
-export function NavigationItem({ label, href }: NavigationItemProps) {
-  return (
-    <Link
-      href={href}
-      className="px-4 py-2 text-white hover:opacity-60 transition-opacity"
-    >
-      {label}
-    </Link>
-  )
-} 
+export const NavigationItem: React.FC<NavigationItemProps> = ({
+  text,
+  href,
+}) => (
+  <div className="flex justify-center items-center self-stretch my-auto text-center">
+    <a href={href} className="self-stretch my-auto">
+      {text}
+    </a>
+  </div>
+);
