@@ -29,10 +29,13 @@ export default function ContactPage() {
         .from('contacts')
         .insert([data]);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
 
       setSubmitStatus('success');
-      e.currentTarget.reset(); // フォームをリセット
+      e.currentTarget.reset();
     } catch (error) {
       console.error('Error submitting form:', error);
       setSubmitStatus('error');
