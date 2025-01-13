@@ -60,6 +60,14 @@ export interface Translations {
     title: string;
     description: string;
   };
+  header: {
+    contact: string;
+    search: string;
+    resources: string;
+    platform: string;
+    login: string;
+    signup: string;
+  };
 }
 
 export { translations } from './data'; 

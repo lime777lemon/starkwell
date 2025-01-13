@@ -1,45 +1,64 @@
 import * as React from "react";
-import { NavigationItem } from "./NavigationItem"; // Corrected import
+import { NavigationItem } from "./NavigationItem";
 import { NavigationItemProps } from "../types";
 import Image from 'next/image';
 import Link from 'next/link';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../translations';
 
 interface HeaderProps {
   navigationItems: NavigationItemProps[];
 }
 
 const Header: React.FC<HeaderProps> = ({ navigationItems }) => {
+  const { language, setLanguage } = useLanguage();
+  const t = translations[language].header;
+
+  console.log('Current language:', language);
+  console.log('Translations:', t);
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'ja' ? 'en' : 'ja');
+  };
+
   return (
     <header
       className="flex flex-col px-8 w-full whitespace-nowrap bg-sky-600 max-md:px-5 max-md:max-w-full"
       role="banner"
     >
       <nav
-        className="flex flex-wrap gap-10 justify-between items-center px-5 py-5 w-full max-md:max-w-full"
+        className="flex justify-between items-center px-5 py-5 w-full max-md:max-w-full"
         role="navigation"
       >
-        <div className="flex flex-col self-stretch my-auto text-xl font-bold leading-none text-white">
-          <Link href="/" className="flex overflow-hidden justify-center items-center">
-            <Image
-              loading="lazy"
-              src="/icons/04stark.jpg"
-              alt="Starkwell Logo"
-              width={40}
-              height={40}
-              className="object-contain shrink-0 self-stretch my-auto w-10 aspect-square"
-            />
-            <div className="gap-2.5 self-stretch p-2.5 my-auto w-[115px]">
-              Starkwell
-            </div>
-          </Link>
-        </div>
-        <div className="flex flex-wrap gap-0 content-center items-center self-stretch pr-4 pl-4 my-auto text-base font-bold leading-5 text-white border-r border-solid border-r-zinc-200 min-w-[240px] max-md:max-w-full">
+        <Link href="/" className="flex items-center gap-2.5">
+          <Image
+            src="/icons/04stark.jpg"
+            alt="Starkwell Logo"
+            width={40}
+            height={40}
+            className="object-contain w-10 h-10"
+          />
+          <span className="text-xl font-bold text-white">
+            Starkwell
+          </span>
+        </Link>
+
+        <div className="flex items-center justify-end space-x-4">
           {navigationItems.map((item, index) => (
             <NavigationItem key={index} {...item} />
           ))}
-          <Link href="/contact" className="self-stretch px-4 py-2 my-auto text-center rounded-[32px]">
-            お問い合わせ
+          <Link 
+            href="/contact" 
+            className="px-4 py-2 text-white hover:bg-sky-700 rounded-[32px] transition-colors"
+          >
+            {t.contact}
           </Link>
+          <button
+            onClick={toggleLanguage}
+            className="px-4 py-2 text-white hover:bg-sky-700 rounded-[32px] transition-colors"
+          >
+            {language === 'ja' ? 'EN' : '日本語'}
+          </button>
         </div>
       </nav>
     </header>

@@ -15,51 +15,25 @@ import {
 } from "../../data/starkwell";
 import Image from 'next/image';
 import Link from 'next/link';
+import Header from '../../components/Header';
 
 export default function StarkwellPage() {
   return (
     <div className="flex flex-col shadow-sm min-w-[390px]">
-      <header
-        className="flex flex-col px-8 w-full whitespace-nowrap bg-sky-600 max-md:px-5 max-md:max-w-full"
-        role="banner"
-      >
-        <nav
-          className="flex flex-wrap gap-10 justify-between items-center px-5 py-5 w-full max-md:max-w-full"
-          role="navigation"
-        >
-          <div className="flex flex-col self-stretch my-auto text-xl font-bold leading-none text-white">
-            <div className="flex overflow-hidden justify-center items-center">
-              <Image
-                src="/images/logo.png"
-                alt="Starkwell Logo"
-                width={40}
-                height={40}
-                className="object-contain shrink-0 self-stretch my-auto w-10 aspect-square"
-              />
-              <div className="gap-2.5 self-stretch p-2.5 my-auto w-[115px]">
-                Starkwell
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-0 content-center items-center self-stretch pr-4 pl-4 my-auto text-base font-bold leading-5 text-white border-r border-solid border-r-zinc-200 min-w-[240px] max-md:max-w-full">
-            {navigationItems.map((item: NavigationItemProps, index: number) => (
-              <NavigationItem key={index} {...item} />
-            ))}
-            <Link 
-              href="/signup"
-              className="self-stretch px-4 py-2 my-auto text-center rounded-[32px] hover:bg-sky-700 transition-colors"
-            >
-              登録
-            </Link>
-            <Link 
-              href="/login"
-              className="self-stretch px-4 py-2 my-auto text-sm text-sky-600 bg-white rounded-[32px] hover:bg-gray-100 transition-colors"
-            >
-              ログイン
-            </Link>
-          </div>
-        </nav>
-      </header>
+      <Header navigationItems={[
+        {
+          text: "ケアを検索",
+          href: "/search"
+        },
+        {
+          text: "リソース",
+          href: "/resources"
+        },
+        {
+          text: "プラットフォーム",
+          href: "/platform"
+        }
+      ]} />
 
       <main role="main">
         {/* Hero Section */}
