@@ -23,22 +23,22 @@ export const translations: Record<'en' | 'ja', Translations> = {
       errorMessage: 'Sorry, there was an error sending your message. Please try again.'
     },
     services: {
-      title: 'Our Services',
+      title: 'Services',
       providers: {
         title: 'For Healthcare Providers',
-        description: 'Build competitive advantage with price transparency...'
+        description: 'Build competitive advantage through price transparency without expanding staff or scope. Our platform enhances patient trust and supports more effective healthcare delivery. Data-driven decision making enables revenue optimization and improved patient satisfaction.'
       },
       payers: {
         title: 'For Payers',
-        description: 'Stay ahead of regulations and requirements...'
+        description: 'Stay ahead of regulations and streamline compliance with price transparency requirements. Real-time pricing data and analytics enable more strategic decision-making. Optimize networks and reduce healthcare costs while improving member satisfaction.'
       },
       employers: {
         title: 'For Employers',
-        description: 'Empower smarter healthcare plan choices...'
+        description: 'Optimize employee healthcare costs and support better healthcare choices. Transparent pricing enables employees to make informed decisions while reducing corporate healthcare expenses. Data analytics maximize benefits program effectiveness and support employee wellness.'
       },
       lifeSciences: {
         title: 'For Life Sciences',
-        description: 'Transform commercial strategy with data...'
+        description: 'Understand market dynamics and develop more effective commercial strategies. Real-time pricing data and market analysis enable competitive pricing strategies. Strengthen relationships with healthcare providers and expand market share while ensuring sustainable business growth.'
       }
     },
     features: {
@@ -68,6 +68,14 @@ export const translations: Record<'en' | 'ja', Translations> = {
     comingSoon: {
       title: 'Homepage Coming Soon',
       description: 'We\'re working hard to bring you an even better experience. Stay tuned for our full website launch.'
+    },
+    header: {
+      contact: 'Contact',
+      search: 'Search Care',
+      resources: 'Resources',
+      platform: 'Platform',
+      login: 'Login',
+      signup: 'Sign Up'
     }
   },
   ja: {
@@ -95,19 +103,19 @@ export const translations: Record<'en' | 'ja', Translations> = {
       title: 'サービス',
       providers: {
         title: '医療提供者向け',
-        description: '人員を増やしたり事業範囲を広げすぎることなく...'
+        description: '人員を増やしたり事業範囲を広げすぎることなく、価格の透明性を通じて競争力を構築します。当社のプラットフォームは、患者の信頼を高め、より効果的な医療サービスの提供を支援します。データ駆動型の意思決定により、収益の最適化と患者満足度の向上を実現します。'
       },
       payers: {
         title: '支払者向け',
-        description: '法規制や要件を先取りしつつ...'
+        description: '法規制や要件を先取りし、価格透明性に関する規制対応を効率化します。リアルタイムの価格データと分析ツールにより、より戦略的な意思決定が可能になります。ネットワーク最適化と医療費用の削減を実現しながら、加入者満足度の向上を支援します。'
       },
       employers: {
         title: '雇用者向け',
-        description: '透明性のある製品を活用して...'
+        description: '従業員の医療費用を最適化し、より良い医療選択をサポートします。透明性のある価格情報により、従業員は賢明な医療選択が可能になり、企業の医療費用を削減できます。データ分析により、福利厚生プログラムの効果を最大化し、従業員の健康維持をサポートします。'
       },
       lifeSciences: {
         title: 'ライフサイエンス向け',
-        description: '最も多忙なCEOから...'
+        description: '市場動向を把握し、より効果的な商業戦略を構築します。リアルタイムの価格データと市場分析により、競争力のある価格戦略の立案が可能になります。医療機関との関係強化と市場シェアの拡大を支援し、持続可能なビジネス成長を実現します。'
       }
     },
     features: {
@@ -137,6 +145,14 @@ export const translations: Record<'en' | 'ja', Translations> = {
     comingSoon: {
       title: 'ホームページ準備中',
       description: 'より良いサービスを提供するため準備中です。完全版の公開をお待ちください。'
+    },
+    header: {
+      contact: 'お問い合わせ',
+      search: 'ケアを検索',
+      resources: 'リソース',
+      platform: 'プラットフォーム',
+      login: 'ログイン',
+      signup: '登録'
     }
   }
 }; 
