@@ -2,7 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['cdn.builder.io'],
     remotePatterns: [
       {
         protocol: 'https',

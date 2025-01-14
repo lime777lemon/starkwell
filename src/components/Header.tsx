@@ -11,7 +11,7 @@ interface HeaderProps {
   navigationItems: NavigationItemProps[];
 }
 
-const Header: React.FC<HeaderProps> = ({ navigationItems }) => {
+export const Header: React.FC<HeaderProps> = ({ navigationItems }) => {
   const { language, setLanguage } = useLanguage();
   const t = translations[language].header;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
