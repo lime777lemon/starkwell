@@ -31,7 +31,7 @@ export const Header: React.FC<HeaderProps> = ({ navigationItems }) => {
       >
         <Link href="/" className="flex items-center gap-2.5">
           <Image
-            src="/icons/03starkwell.jpg"
+            src="/icons/03Starkwell.jpg"
             alt="Starkwell Logo"
             width={40}
             height={40}
