@@ -36,6 +36,7 @@ export const Header: React.FC<HeaderProps> = ({ navigationItems }) => {
             width={40}
             height={40}
             className="object-contain w-10 h-10"
+            priority
           />
           <span className="text-xl font-bold text-white">
             Starkwell
