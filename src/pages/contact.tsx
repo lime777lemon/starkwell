@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Header from '../components/Header'
 import { useLanguage } from '../contexts/LanguageContext'
 import { translations } from '../translations'
@@ -9,6 +9,7 @@ export default function ContactPage() {
   const t = translations[language];
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,13 +34,14 @@ export default function ContactPage() {
         setSubmitStatus('error');
       } else {
         setSubmitStatus('success');
-        alert('送信に成功しました'); // 送信に成功したという表示
-        e.currentTarget.reset(); // フォームをリセット
+        alert('送信に成功しました');
+        console.log('Form Ref:', formRef.current);
+        formRef.current?.reset();
       }
 
     } catch (error) {
       console.error('Error submitting form:', error);
-      setSubmitStatus('error'); // エラーが発生したので、エラーとして設定
+      setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
     }
@@ -68,7 +70,7 @@ export default function ContactPage() {
               </div>
             )}
             
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form ref={formRef} className="space-y-6" onSubmit={handleSubmit}>
               {/* Name Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>

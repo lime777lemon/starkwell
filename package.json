@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@builder.io/react": "^3.0.0",
-    "@supabase/supabase-js": "^2.47.12",
+    "@supabase/supabase-js": "^2.47.13",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
