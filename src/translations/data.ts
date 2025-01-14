@@ -97,7 +97,7 @@ export const translations: Record<'en' | 'ja', Translations> = {
       send: '送信',
       sending: '送信中...',
       successMessage: 'お問い合わせありがとうございます。内容を確認の上、ご連絡させていただきます。',
-      errorMessage: '申し訳ありません。送信中にエラーが発生しました。もう一度お試しください。'
+      errorMessage: '申し訳ありません。送信に失敗しました。もう一度お試しください。'
     },
     services: {
       title: 'サービス',
