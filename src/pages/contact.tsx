@@ -23,7 +23,6 @@ export default function ContactPage() {
       subject: formData.get('subject') as string,
       message: formData.get('message') as string,
     };
-
     try {
       const { error } = await supabase
         .from('contacts')
@@ -34,12 +33,13 @@ export default function ContactPage() {
         setSubmitStatus('error');
       } else {
         setSubmitStatus('success');
+        alert('送信に成功しました'); // 送信に成功したという表示
         e.currentTarget.reset(); // フォームをリセット
       }
 
     } catch (error) {
       console.error('Error submitting form:', error);
-      setSubmitStatus('success'); // 送信できているので、送信に成功しましたという表示
+      setSubmitStatus('error'); // エラーが発生したので、エラーとして設定
     } finally {
       setIsSubmitting(false);
     }
