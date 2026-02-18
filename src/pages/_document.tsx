@@ -6,7 +6,7 @@ export default function Document() {
     <Html lang="ja">
       <Head>
         <meta charSet="utf-8" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/icons/03Starkwell.jpg" type="image/jpeg" />
       </Head>
       <body>
         <Main />

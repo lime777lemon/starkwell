@@ -1,8 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
-// メール通知先
-const NOTIFY_EMAILS = ['yukiko@starkwell.jp', 'michael@starkwell.jp'];
+const DEFAULT_NOTIFY_EMAILS = ['info@starkwell.jp', 'yukiko@starkwell.jp', 'michael@starkwell.jp'];
+
+function getNotifyEmails(): string[] {
+  const custom = process.env.RESEND_TO_EMAIL?.trim();
+  if (custom) {
+    return custom.split(',').map((e) => e.trim()).filter(Boolean);
+  }
+  return DEFAULT_NOTIFY_EMAILS;
+}
 
 interface ContactData {
   firstName: string;
@@ -13,13 +20,13 @@ interface ContactData {
 }
 
 async function sendNotificationEmails(data: ContactData): Promise<void> {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.warn('RESEND_API_KEY is not set. Skipping email notification.');
-    return;
-  }
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  const toEmails = getNotifyEmails();
+  if (!apiKey) throw new Error('RESEND_API_KEY is not set');
+  if (toEmails.length === 0) throw new Error('No recipient emails configured');
 
-  const fromEmail = process.env.CONTACT_FROM_EMAIL || 'Starkwell <onboarding@resend.dev>';
+  // 本番は starkwell.jp から送信。ドメイン未検証時のみ CONTACT_FROM_EMAIL=Starkwell <onboarding@resend.dev> を設定
+  const fromEmail = process.env.CONTACT_FROM_EMAIL?.trim() || 'Starkwell <info@starkwell.jp>';
   const subject = `[Starkwell] お問い合わせ: ${data.subject}`;
   const html = `
     <h2>新しいお問い合わせがありました</h2>
@@ -40,7 +47,7 @@ async function sendNotificationEmails(data: ContactData): Promise<void> {
     },
     body: JSON.stringify({
       from: fromEmail,
-      to: NOTIFY_EMAILS,
+      to: getNotifyEmails(),
       subject,
       html,
       reply_to: data.email,
@@ -48,8 +55,9 @@ async function sendNotificationEmails(data: ContactData): Promise<void> {
   });
 
   if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Resend API error: ${response.status} ${error}`);
+    const errorText = await response.text();
+    console.error('[Resend]', response.status, errorText);
+    throw new Error(`Resend: ${response.status} ${errorText}`);
   }
 }
 
@@ -70,7 +78,8 @@ export default async function handler(
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const { firstName, lastName, email, subject, message } = req.body as ContactData;
+  const body = req.body ?? {};
+  const { firstName, lastName, email, subject, message } = body as ContactData;
 
   if (!firstName || !lastName || !email || !subject || !message) {
     return res.status(400).json({
@@ -79,20 +88,51 @@ export default async function handler(
     });
   }
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseKey) {
-    return res.status(500).json({
-      success: false,
-      message: 'サーバー設定エラーです。',
-    });
-  }
-
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  const contactData = { firstName, lastName, email, subject, message };
 
   try {
-    // 1. Supabase に保存
+    // 1. メール通知を優先（Resend が設定されていればこちらで成功とする）
+    const hasResendKey = !!process.env.RESEND_API_KEY?.trim();
+    if (hasResendKey) {
+      await sendNotificationEmails(contactData);
+      // メール送信成功 → Supabase はオプション（失敗しても成功を返す）
+      try {
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+        const supabaseKey = (
+          process.env.SUPABASE_SERVICE_ROLE_KEY ||
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+        )?.trim();
+        if (supabaseUrl && supabaseKey) {
+          const supabase = createClient(supabaseUrl, supabaseKey);
+          const { error } = await supabase.from('contacts').insert([
+            { first_name: firstName, last_name: lastName, email, subject, message },
+          ]);
+          if (error) throw error;
+        }
+      } catch (dbError) {
+        console.warn('Supabase save skipped (email sent):', dbError);
+      }
+      return res.status(200).json({
+        success: true,
+        message: '送信が完了しました。',
+      });
+    }
+
+    // 2. Resend がなければ Supabase のみ
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+    const supabaseKey = (
+      process.env.SUPABASE_SERVICE_ROLE_KEY ||
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    )?.trim();
+
+    if (!supabaseUrl || !supabaseKey) {
+      return res.status(500).json({
+        success: false,
+        message: 'RESEND_API_KEY または Supabase の設定が必要です。',
+      });
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
     const { error: dbError } = await supabase.from('contacts').insert([
       {
         first_name: firstName,
@@ -109,20 +149,6 @@ export default async function handler(
         success: false,
         message: '送信に失敗しました。しばらくしてから再度お試しください。',
       });
-    }
-
-    // 2. メール通知を送信（失敗してもDB保存は成功とする）
-    try {
-      await sendNotificationEmails({
-        firstName,
-        lastName,
-        email,
-        subject,
-        message,
-      });
-    } catch (emailError) {
-      console.error('Email notification error:', emailError);
-      // メール送信失敗はログのみ。ユーザーには成功を返す
     }
 
     return res.status(200).json({

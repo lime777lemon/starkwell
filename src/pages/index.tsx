@@ -108,13 +108,14 @@ export default function HomePage() {
             <div className="flex flex-col space-y-16">
               {/* Search Care */}
               <div className="flex flex-row items-start max-w-4xl mx-auto w-full">
-                <Image 
-                  src="/images/doctor.jpg"
-                  alt="Doctor using smartphone" 
-                  width={400}
-                  height={256}
-                  className="w-1/2 h-64 object-cover rounded-lg mr-6"
-                />
+                <div className="relative w-1/2 h-64 rounded-lg mr-6 overflow-hidden">
+                  <Image 
+                    src="/images/doctor.jpg"
+                    alt="Doctor using smartphone" 
+                    fill
+                    className="object-cover"
+                  />
+                </div>
                 <div className="w-1/2">
                   <h3 className="text-2xl font-bold text-blue-600 mb-4">
                     {t.features.searchCare.title}
@@ -169,24 +170,26 @@ export default function HomePage() {
                     </li>
                   </ul>
                 </div>
-                <Image 
-                  src="/images/doctoers.jpg"
-                  alt="Medical team in surgical attire" 
-                  width={400}
-                  height={256}
-                  className="w-1/2 h-64 object-cover rounded-lg ml-6"
-                />
+                <div className="relative w-1/2 h-64 rounded-lg ml-6 overflow-hidden">
+                  <Image 
+                    src="/images/doctoers.jpg"
+                    alt="Medical team in surgical attire" 
+                    fill
+                    className="object-cover"
+                  />
+                </div>
               </div>
 
               {/* Calculate Costs */}
               <div className="flex flex-row items-start max-w-4xl mx-auto w-full">
-                <Image 
-                  src="/images/money.jpg"
-                  alt="Money and cost calculation" 
-                  width={400}
-                  height={256}
-                  className="w-1/2 h-64 object-cover rounded-lg mr-6"
-                />
+                <div className="relative w-1/2 h-64 rounded-lg mr-6 overflow-hidden">
+                  <Image 
+                    src="/images/money.jpg"
+                    alt="Money and cost calculation" 
+                    fill
+                    className="object-cover"
+                  />
+                </div>
                 <div className="w-1/2">
                   <h3 className="text-2xl font-bold text-blue-600 mb-4">
                     {t.features.estimate.title}
